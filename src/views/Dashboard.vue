@@ -249,130 +249,138 @@ const setcomparisonChartOptions = () => {
 </script>
 
 <template>
-    <Dropdown v-model="sortKey" :options="counters" optionLabel="label" placeholder="Counters" @change="onSortChange($event)" class="mb-5" v-show="counters.length" />
-    <div class="grid">
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Üretim Miktarı</span>
+    <div class="pt-3 px-3 bg-white border-2 border-gray-100 mb-3" style="border-radius: 1rem">
+        <Dropdown v-model="sortKey" :options="counters" optionLabel="label" placeholder="Counters" @change="onSortChange($event)" class="mb-5" v-show="counters.length" style="width: 25%" />
+        <div class="grid mb-3">
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative relative" style="background-image: linear-gradient(to left, #aee3ff, #6cbdf7)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-3">Üretim Miktarı</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-shopping-cart text-blue-500" style="font-size: 2.5rem"></i>
+                        </div>
                     </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">Sayaç: {{ widgetsData?.data.production_sum }}</div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-1">Maliyet Değişimi</span>
-                        <span class="block text-400 font-medium mb-3">(Bir Önceki Aya Göre)</span>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.cost_change_from_last_month }}</div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Fatura Durumu</span>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.estimated_bill }}</div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Birim Maliyet</span>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-comment text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="flex flex-column gap-1">
-                    <span class="text-500">KDV Hariç Birim Maliyet</span>
-                    <span class="text-green-500 font-medium">{{ widgetsData?.data.unit_cost_without_vat }}</span>
-                    <span class="text-500">KDV Dahil Birim Maliyet</span>
-                    <span class="text-green-500 font-medium">{{ widgetsData?.data.unit_cost_with_vat }}</span>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">Sayaç: {{ widgetsData?.data.production_sum }}</div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-1">Tahmini Fatura Durumu</span>
-                        <span class="block text-400 font-medium mb-3">(Bir Önceki Aya Göre)</span>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #fbd38d, #ffa500)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-1">Maliyet Değişimi</span>
+                            <span class="block text-white text-400 font-medium mb-3">(Bir Önceki Aya Göre)</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-map-marker text-orange-500" style="font-size: 2.5rem"></i>
+                        </div>
                     </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.cost_change_from_last_month }}</div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #b2f5ea, #00b5cc)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-3">Fatura Durumu</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-inbox text-cyan-500" style="font-size: 2.5rem"></i>
+                        </div>
+                    </div>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.estimated_bill }}</div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #d6bcfa, #8b5cf6)">
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-3">Birim Maliyet</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-comment text-purple-500" style="font-size: 2.5rem"></i>
+                        </div>
+                    </div>
+                    <div class="flex flex-column gap-2">
+                        <div>
+                            <span class="text-900 font-medium text-white">{{ widgetsData?.data.unit_cost_without_vat }}</span> /
+                            <span class="text-900 font-medium text-white">KDV Hariç Birim Maliyet</span>
+                        </div>
+                        <div>
+                            <span class="text-900 font-medium text-white">{{ widgetsData?.data.unit_cost_with_vat }}</span> /
+                            <span class="text-900 font-medium text-white">KDV Dahil Birim Maliyet</span>
+                        </div>
                     </div>
                 </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.estimated_bill }}</div>
             </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Ges TL Bazlı Getirisi</span>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #b2f5ea, #00b5cc)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-1">Tahmini Fatura Durumu</span>
+                            <span class="block text-400 text-white font-medium mb-3">(Bir Önceki Aya Göre)</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-inbox text-cyan-500" style="font-size: 2.5rem"></i>
+                        </div>
                     </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.estimated_bill }}</div>
                 </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_tl_income }}</div>
             </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Ges Dolar Bazlı Getirisi</span>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #b2f5ea, #00b5cc)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-3">Ges TL Bazlı Getirisi</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-inbox text-cyan-500" style="font-size: 2.5rem"></i>
+                        </div>
                     </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_tl_income }}</div>
                 </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_usd_income }}</div>
             </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card h-full mb-0 relative">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">İşletme Tüketiminin Ges'ten Karşılanma Oranı</span>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #b2f5ea, #00b5cc)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-3">Ges Dolar Bazlı Getirisi</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-inbox text-cyan-500" style="font-size: 2.5rem"></i>
+                        </div>
                     </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_usd_income }}</div>
                 </div>
-                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_coverage_rate }}</div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card h-full mb-0 relative" style="background-image: linear-gradient(to left, #b2f5ea, #00b5cc)">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-white text-500 font-medium mb-3">İşletme Tüketiminin Ges'ten Karşılanma Oranı</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem">
+                            <i class="pi pi-inbox text-cyan-500" style="font-size: 2.5rem"></i>
+                        </div>
+                    </div>
+                    <div class="text-900 text-white font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_coverage_rate }}</div>
+                </div>
             </div>
         </div>
+    </div>
 
+    <div class="grid">
         <div class="col-12 xl:col-6">
             <div class="card">
                 <h5>Üretim Grafiği</h5>
-                <Chart type="line" :data="productionChartData" :options="comparisonChartOptions" class="h-30rem" />
+                <Chart type="line" :data="productionChartData" :options="comparisonChartOptions" class="h-20rem" />
             </div>
         </div>
         <div class="col-12 xl:col-6">
             <div class="card">
                 <h5>Karsilastirma Tablosu</h5>
-                <Chart type="line" :data="comparisonChartData" :options="comparisonChartOptions" class="h-30rem" />
+                <Chart type="line" :data="comparisonChartData" :options="comparisonChartOptions" class="h-20rem" />
             </div>
         </div>
     </div>
