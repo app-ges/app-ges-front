@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
 onMounted(fetchData);
 
@@ -39,13 +40,14 @@ async function fetchData() {
             throw new Error('User not logged in or token missing');
         }
 
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/v2/counters`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/v2/counters`, {
             headers: {
+                'Content-type': 'application/json',
                 Authorization: `Bearer ${user.token}`
             }
         });
 
-        const data = await response.json();
+        const data = await response.data;
         if (data.success) {
             counters.value = data.items.map((item) => {
                 return {
@@ -67,12 +69,13 @@ async function fetchData() {
 
 async function fetchWidgetData(itemID, token) {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/v2/dashboard/${itemID}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/v2/dashboard/${itemID}`, {
             headers: {
+                'Content-type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
         });
-        const data = await response.json();
+        const data = await response.data;
         widgetsData.value = data;
         console.log(widgetsData.value);
     } catch (error) {
@@ -82,12 +85,13 @@ async function fetchWidgetData(itemID, token) {
 
 async function fetchProductionChartData(itemID, token) {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/v2/daily-generation/${itemID}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/v2/daily-generation/${itemID}`, {
             headers: {
+                'Content-type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
         });
-        const data = await response.json();
+        const data = await response.data;
         productionChartData.value = setProductionChartData(data);
         productionChartOptions.value = setcomparisonChartOptions();
     } catch (error) {
@@ -98,12 +102,13 @@ async function fetchProductionChartData(itemID, token) {
 
 async function fetchcomparisonChartData(itemID, token) {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/v2/comparison-report/${itemID}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/v2/comparison-report/${itemID}`, {
             headers: {
+                'Content-type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
         });
-        const data = await response.json();
+        const data = await response.data;
         comparisonChartData.value = setComparisonChartData(data);
         comparisonChartOptions.value = setcomparisonChartOptions();
     } catch (error) {
@@ -247,47 +252,47 @@ const setcomparisonChartOptions = () => {
     <Dropdown v-model="sortKey" :options="counters" optionLabel="label" placeholder="Counters" @change="onSortChange($event)" class="mb-5" v-show="counters.length" />
     <div class="grid">
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Üretim Miktarı</span>
-                        <div class="text-900 font-medium text-xl">Sayaç: {{ widgetsData?.data.production_sum }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">Sayaç: {{ widgetsData?.data.production_sum }}</div>
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-1">Maliyet Değişimi</span>
                         <span class="block text-400 font-medium mb-3">(Bir Önceki Aya Göre)</span>
-                        <div class="text-900 font-medium text-xl">{{ widgetsData?.data.cost_change_from_last_month }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-map-marker text-orange-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.cost_change_from_last_month }}</div>
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Fatura Durumu</span>
-                        <div class="text-900 font-medium text-xl">{{ widgetsData?.data.estimated_bill }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.estimated_bill }}</div>
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Birim Maliyet</span>
@@ -305,56 +310,56 @@ const setcomparisonChartOptions = () => {
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-1">Tahmini Fatura Durumu</span>
                         <span class="block text-400 font-medium mb-3">(Bir Önceki Aya Göre)</span>
-                        <div class="text-900 font-medium text-xl">{{ widgetsData?.data.estimated_bill }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.estimated_bill }}</div>
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Ges TL Bazlı Getirisi</span>
-                        <div class="text-900 font-medium text-xl">{{ widgetsData?.data.ges_tl_income }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_tl_income }}</div>
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Ges Dolar Bazlı Getirisi</span>
-                        <div class="text-900 font-medium text-xl">{{ widgetsData?.data.ges_usd_income }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_usd_income }}</div>
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
+            <div class="card h-full mb-0 relative">
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">İşletme Tüketiminin Ges'ten Karşılanma Oranı</span>
-                        <div class="text-900 font-medium text-xl">{{ widgetsData?.data.ges_coverage_rate }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                     </div>
                 </div>
+                <div class="text-900 font-medium text-xl p-4 absolute bottom-0 left-0">{{ widgetsData?.data.ges_coverage_rate }}</div>
             </div>
         </div>
 
@@ -363,6 +368,8 @@ const setcomparisonChartOptions = () => {
                 <h5>Üretim Grafiği</h5>
                 <Chart type="line" :data="productionChartData" :options="comparisonChartOptions" class="h-30rem" />
             </div>
+        </div>
+        <div class="col-12 xl:col-6">
             <div class="card">
                 <h5>Karsilastirma Tablosu</h5>
                 <Chart type="line" :data="comparisonChartData" :options="comparisonChartOptions" class="h-30rem" />

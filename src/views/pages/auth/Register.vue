@@ -3,7 +3,6 @@ import { useLayout } from '@/layout/composables/layout';
 import { ref, computed } from 'vue';
 import AppConfig from '@/layout/AppConfig.vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 
 const { layoutConfig } = useLayout();
 const email = ref('');
@@ -13,7 +12,6 @@ const password = ref('');
 const successMessage = ref('');
 const errorMessage = ref('');
 const checked = ref(false);
-const router = useRouter();
 
 const signUp = async () => {
     if (email.value && username.value && phone.value && password.value) {
@@ -29,14 +27,14 @@ const signUp = async () => {
                     })
                 },
                 {
-                    Headers: {
+                    headers: {
                         'Content-Type': 'application/json'
                     }
                 }
             );
 
             if (response.ok) {
-                const data = await response.json();
+                const data = await response.data;
                 console.log('Giriş başarılı', data);
                 successMessage.value = data.message;
                 email.value = '';
