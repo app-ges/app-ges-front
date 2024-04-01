@@ -13,7 +13,7 @@ const productionChartOptions = ref();
 const sortKey = ref(null);
 const sortOrder = ref(null);
 const sortField = ref(null);
-const group = ref(false);
+const companyType = ref(false);
 const groupCompanyData = ref(null);
 
 const onSortChange = (event) => {
@@ -42,8 +42,8 @@ async function fetchData() {
             throw new Error('User not logged in or token missing');
         }
 
-        if (user && user.group) {
-            group.value = true;
+        if (user && user.company_type) {
+            companyType.value = true;
             fetchGroupDashboardWidgetData(user.token);
         } else {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/v2/counters`, {
@@ -309,7 +309,7 @@ watch(
 </script>
 
 <template>
-    <div v-if="group === true">
+    <div v-if="companyType === true">
         <div class="pt-3 px-3 bg-white border-2 border-gray-100 mb-3" style="border-radius: 1rem">
             <div class="grid mb-3">
                 <div class="col-12 lg:col-6 xl:col-3">

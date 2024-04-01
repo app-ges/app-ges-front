@@ -20,9 +20,8 @@ export const signIn = async (username, password, router) => {
 
         localStorage.setItem('user', JSON.stringify(token));
 
-        // Add 'group-company: company' to user data
         const userData = JSON.parse(localStorage.getItem('user'));
-        userData['group-company'] = 'company';
+        userData['company_type'] = 'group';
         localStorage.setItem('user', JSON.stringify(userData));
 
         if (response.status === 200) {
