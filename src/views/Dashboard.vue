@@ -314,7 +314,7 @@ watch(
             <div class="grid mb-3">
                 <div class="col-12 lg:col-6 xl:col-3">
                     <div class="card h-full mb-0 relative relative" style="background-image: linear-gradient(to left, #aee3ff, #6cbdf7)">
-                        <div class="text-900 text-white font-medium mb-3">Başlık:</div>
+                        <div class="text-900 text-white font-medium mb-3" v-show="groupCompanyData?.data[0].name === null">Başlık:</div>
                         <div class="text-900 text-white font-medium mb-3">İsim: {{ groupCompanyData?.data[0].name }}</div>
                         <div class="text-900 text-white font-medium mb-3">Üretim Miktarı: {{ groupCompanyData?.data[0].production_sum }}</div>
                         <div class="text-900 text-white font-medium mb-3">Tüketim Miktarı: {{ groupCompanyData?.data[0].consumption_sum }}</div>
