@@ -28,6 +28,20 @@ const router = createRouter({
                     }
                 },
                 {
+                    path: '/counter-logs',
+                    name: 'counter-logs',
+                    component: () => import('@/views/CounterLogs.vue'),
+                    beforeEnter: (to, from, next) => {
+                        const isAuthenticated = localStorage.getItem('user') !== null;
+
+                        if (isAuthenticated) {
+                            next();
+                        } else {
+                            next('/auth/login')
+                        }
+                    }
+                },
+                {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
                     component: () => import('@/views/uikit/FormLayout.vue')

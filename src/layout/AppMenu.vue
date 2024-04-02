@@ -11,7 +11,7 @@ const model = ref([
     {
         // label: 'UI Components',
         items: [
-            { label: 'Sayaç Okumaları', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
+            { label: 'Sayaç Okumaları', icon: 'pi pi-fw pi-id-card', to: '/counter-logs' },
             { label: 'Genel Alarmlar', icon: 'pi pi-fw pi-check-square', to: '/uikit/input' },
             {
                 label: 'Sayaç Arıza Takibi',
