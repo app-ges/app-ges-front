@@ -53,7 +53,6 @@ const updateDate = () => {
     daysInMonth.value = Array.from({ length: lastDayOfMonth }, (_, i) => i + 1);
 };
 
-// Function to fetch counters
 async function fetchCounters() {
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -76,11 +75,8 @@ async function fetchCounters() {
         }
     } catch (error) {
         console.error('Error fetching counters:', error);
-        // Handle error if needed
     }
 }
-
-// Function to fetch data for a specific counterId
 const fetchData = async (selectedCounter) => {
     loading.value = true;
     error.value = '';
@@ -121,17 +117,13 @@ const fetchData = async (selectedCounter) => {
     }
 };
 
-// Function to handle dropdown change event
 const onSortChange = (selectedCounter) => {
     fetchData(selectedCounter.value);
 };
 
-// Call fetchCounters function to load counters when the component is mounted
 fetchCounters();
 
-// Modify the getLogValueForHourDay method to display selected value
 const getLogValueForHourDay = (hour, day) => {
-    // Convert hour from string to number with leading zero padding
     const formattedHour = hour.padStart(2, '0');
     const log = logs.value.find((log) => {
         const logDate = new Date(log.date);
@@ -141,7 +133,6 @@ const getLogValueForHourDay = (hour, day) => {
 };
 
 const getTotalForHour = (hour) => {
-    // Handle potential 'Total' case
     if (hour === 'Total') {
         return logs.value
             .reduce((acc, log) => {
@@ -151,7 +142,6 @@ const getTotalForHour = (hour) => {
             .toFixed(2);
     }
 
-    // Convert hour from string to number with leading zero padding
     const formattedHour = hour.padStart(2, '0');
     const logsForHour = logs.value.filter((log) => new Date(log.date).getHours() === parseInt(formattedHour));
     const total = logsForHour.reduce((acc, log) => {
@@ -191,6 +181,43 @@ const exportToExcel = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
     XLSX.writeFile(workbook, 'tablo_data.xlsx');
 };
+
+const exportToExcelSingleColumn = () => {
+    if (logs.value.length === 0) {
+        exportError.value = 'Veri henüz alınmadı. Lütfen önce veriyi alın.';
+        return;
+    }
+
+    const exportData = [];
+
+    logs.value.forEach((log) => {
+        const date = new Date(log.date).toLocaleDateString('en-GB');
+
+        const exportEntry = {
+            Date: date
+        };
+
+        exportEntry[selectedCategory.value] = log[selectedCategory.value];
+
+        exportData.push(exportEntry);
+    });
+
+    const categoryTotal = exportData.reduce((acc, entry) => acc + parseFloat(entry[selectedCategory.value] || 0), 0).toFixed(2);
+
+    const lastRow = {
+        Date: 'Total',
+        [selectedCategory.value]: categoryTotal
+    };
+
+    exportData.push(lastRow);
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    XLSX.writeFile(workbook, `${selectedCategory.value}.xlsx`);
+};
 </script>
 
 <template>
@@ -212,6 +239,7 @@ const exportToExcel = () => {
                 </div>
                 <Button @click="onSortChange(selectedCounter)" label="Sayaç Okuma Verilerini Al"></Button>
                 <Button @click="exportToExcel" label="Tabloyu Dışa Aktar"></Button>
+                <Button @click="exportToExcelSingleColumn" label="Tek Sütunlu Excel'e Aktar"></Button>
             </div>
         </div>
 
