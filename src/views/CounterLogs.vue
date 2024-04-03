@@ -191,13 +191,12 @@ const exportToExcelSingleColumn = () => {
     const exportData = [];
 
     logs.value.forEach((log) => {
-        const date = new Date(log.date).toLocaleDateString('en-GB');
+        const dateTime = new Date(log.date).toLocaleString('en-GB');
 
         const exportEntry = {
-            Date: date
+            'Date & Time': dateTime,
+            [selectedCategory.value]: log[selectedCategory.value]
         };
-
-        exportEntry[selectedCategory.value] = log[selectedCategory.value];
 
         exportData.push(exportEntry);
     });
@@ -205,7 +204,7 @@ const exportToExcelSingleColumn = () => {
     const categoryTotal = exportData.reduce((acc, entry) => acc + parseFloat(entry[selectedCategory.value] || 0), 0).toFixed(2);
 
     const lastRow = {
-        Date: 'Total',
+        'Date & Time': 'Total',
         [selectedCategory.value]: categoryTotal
     };
 
