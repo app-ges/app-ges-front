@@ -91,7 +91,7 @@ const fetchData = async (selectedCounter) => {
 
     try {
         const response = await axios.post(
-            `https://panel.test.app-ges.com/panel/v2/counter-logs/${selectedCounter}`,
+            `${import.meta.env.VITE_API_URL}/v2/counter-logs/${selectedCounter}`,
             {
                 start_date: startDate.value,
                 end_date: endDate.value

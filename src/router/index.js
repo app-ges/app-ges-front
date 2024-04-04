@@ -42,6 +42,20 @@ const router = createRouter({
                     }
                 },
                 {
+                    path: '/verimlilik',
+                    name: 'verimlilik',
+                    component: () => import('@/views/Efficiency.vue'),
+                    beforeEnter: (to, from, next) => {
+                        const isAuthenticated = localStorage.getItem('user') !== null;
+
+                        if (isAuthenticated) {
+                            next();
+                        } else {
+                            next('/auth/login')
+                        }
+                    }
+                },
+                {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
                     component: () => import('@/views/uikit/FormLayout.vue')
