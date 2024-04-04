@@ -182,7 +182,6 @@ const setChart = (counterEfficiencyData, regionalEfficiencyData) => {
         </div>
         <div v-if="efficiencyData && !loading">
             <div class="card">
-                <h5>Bar Chart</h5>
                 <Chart type="bar" :data="barData" :options="barOptions"></Chart>
             </div>
         </div>
