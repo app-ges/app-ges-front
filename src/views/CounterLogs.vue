@@ -3,7 +3,10 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 
-onMounted(fetchCounters);
+onMounted(() => {
+    updateDate();
+    fetchCounters();
+});
 
 const selectedCategory = ref('gn_value');
 const categories = ref([
@@ -26,11 +29,12 @@ const months = ref([
     { name: 'Aralık', code: '12' }
 ]);
 const currentYear = new Date().getFullYear();
+const currentDate = new Date();
+const currentMonthNumber = (currentDate.getMonth() + 1).toString();
+const selectedMonth = ref({ name: months.value.find((month) => month.code === currentMonthNumber).name, code: months.value.find((month) => month.code === currentMonthNumber).code });
+const selectedYear = ref({ name: currentYear.toString(), code: currentYear.toString() });
 const yearsList = Array.from({ length: 11 }, (_, index) => ({ name: `${currentYear - index}`, code: `${currentYear - index}` }));
-
 const years = ref(yearsList);
-const selectedMonth = ref(new Date().getMonth() + 1);
-const selectedYear = ref(new Date().getFullYear());
 
 const startDate = ref('');
 const endDate = ref('');
@@ -90,6 +94,7 @@ const fetchData = async (selectedCounter) => {
     }
 
     try {
+        console.log(startDate, endDate);
         const response = await axios.post(
             `${import.meta.env.VITE_API_URL}/v2/counter-logs/${selectedCounter}`,
             {
@@ -118,10 +123,12 @@ const fetchData = async (selectedCounter) => {
 };
 
 const onSortChange = (selectedCounter) => {
+    if (!selectedCounter.value) {
+        return;
+    }
+
     fetchData(selectedCounter.value);
 };
-
-fetchCounters();
 
 const getLogValueForHourDay = (hour, day) => {
     const formattedHour = hour.padStart(2, '0');
@@ -223,28 +230,27 @@ const exportToExcelSingleColumn = () => {
     <div class="p-3 bg-white border-2 border-gray-100 mb-3">
         <div>
             <div class="toolbar">
-                <Dropdown id="dropdown" v-model="selectedCounter" :options="counters" optionLabel="label" placeholder="Sayaçlar" class="mb-5" v-show="counters.length" />
-                <Dropdown id="dropdown" v-model="selectedMonth" :options="months" optionLabel="name" placeholder="Ay Seçin" @change="updateDate" />
-                <Dropdown id="dropdown" v-model="selectedYear" :options="years" optionLabel="name" placeholder="Yıl Seçin" @change="updateDate" />
-                <div class="grid">
-                    <div class="col-12 md:col-4">
-                        <div class="field-radiobutton mb-0 gap-3">
-                            <div v-for="category in categories" :key="category.key" class="flex align-items-center">
-                                <RadioButton v-model="selectedCategory" :inputId="category.key" name="dynamic" :value="category.key" />
-                                <label :for="category.key" class="ml-2">{{ category.name }}</label>
-                            </div>
+                <Dropdown style="width: 30%; max-width: 200px; flex-grow: 1" id="dropdown" v-model="selectedCounter" :options="counters" optionLabel="label" placeholder="Sayaçlar" />
+                <Dropdown style="width: 30%; max-width: 200px; flex-grow: 1" id="dropdown" v-model="selectedMonth" :options="months" optionLabel="name" @change="updateDate" />
+                <Dropdown style="width: 30%; max-width: 200px; flex-grow: 1" id="dropdown" v-model="selectedYear" :options="years" optionLabel="name" @change="updateDate" />
+                <Button @click="onSortChange(selectedCounter)" label="Sayaç Okuma Verilerini Al" style="flex-grow: 1"></Button>
+                <Button @click="exportToExcel" label="Tabloyu Dışa Aktar" style="flex-grow: 1"></Button>
+                <Button @click="exportToExcelSingleColumn" label="Tek Sütunlu Excel'e Aktar" style="flex-grow: 1"></Button>
+            </div>
+            <div class="grid">
+                <div class="col-12 md:col-4">
+                    <div class="field-radiobutton mb-0 gap-3">
+                        <div v-for="category in categories" :key="category.key" class="flex align-items-center">
+                            <RadioButton v-model="selectedCategory" :inputId="category.key" name="dynamic" :value="category.key" />
+                            <label :for="category.key" class="ml-2">{{ category.name }}</label>
                         </div>
                     </div>
                 </div>
-                <Button @click="onSortChange(selectedCounter)" label="Sayaç Okuma Verilerini Al"></Button>
-                <Button @click="exportToExcel" label="Tabloyu Dışa Aktar"></Button>
-                <Button @click="exportToExcelSingleColumn" label="Tek Sütunlu Excel'e Aktar"></Button>
             </div>
         </div>
 
         <div v-if="exportError">{{ exportError }}</div>
         <div v-if="loading">Loading...</div>
-        <div v-else-if="error">Error: {{ error }}</div>
         <div v-else>
             <div v-if="logs.length > 0" class="overflow-x-auto mt-4">
                 <table class="table-auto min-w-full" style="border-collapse: collapse; border: 1px solid #dee2e6">

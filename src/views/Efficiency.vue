@@ -178,15 +178,15 @@ const setChart = (counterEfficiencyData, regionalEfficiencyData) => {
                 <Dropdown id="dropdown" v-model="selectedType" :options="types" optionLabel="label" placeholder="Gösterim Türü" />
                 <Button @click="fetchData" label="GETIR" class="p-button" style="flex-grow: 1"></Button>
             </div>
-            <div v-if="loading" class="loading-indicator">Loading...</div>
+            <div v-if="loading" class="loading-indicator">Grafik Yükleniyor...</div>
         </div>
-        <div v-if="efficiencyData && !loading">
-            <div class="card">
-                <Chart type="bar" :data="barData" :options="barOptions"></Chart>
-            </div>
-        </div>
-        <div v-else></div>
     </div>
+    <div v-if="efficiencyData && !loading">
+        <div class="card">
+            <Chart type="bar" :data="barData" :options="barOptions"></Chart>
+        </div>
+    </div>
+    <div v-else></div>
 </template>
 
 <style scoped>
