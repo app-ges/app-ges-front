@@ -61,7 +61,6 @@ async function fetchData() {
                         value: item.id
                     };
                 });
-                counters.value.push({ label: 'test', value: 'test' });
                 fetchWidgetData(data.items[0].id, user.token);
                 fetchProductionChartData(data.items[0].id, user.token);
                 fetchcomparisonChartData(data.items[0].id, user.token);
@@ -327,7 +326,7 @@ watch(
 
     <div v-else>
         <div class="pt-3 px-3 bg-white border-2 border-gray-100 mb-3" style="border-radius: 1rem">
-            <Dropdown id="dropdown" v-model="sortKey" :options="counters" optionLabel="label" placeholder="Counters" @change="onSortChange($event)" class="mb-5" v-show="counters.length" />
+            <Dropdown id="dropdown" v-model="sortKey" :options="counters" optionLabel="label" placeholder="Sayaçlar" @change="onSortChange($event)" class="mb-5" v-show="counters.length" />
             <div class="grid mb-3">
                 <div class="col-12 lg:col-6 xl:col-3">
                     <div class="card h-full mb-0 relative relative" style="background-image: linear-gradient(to left, #aee3ff, #6cbdf7)">
@@ -460,12 +459,12 @@ watch(
                     <Chart type="line" :data="comparisonChartData" :options="comparisonChartOptions" class="h-20rem" />
                 </div>
             </div>
-            <div class="col-12 xl:col-6">
+            <!-- <div class="col-12 xl:col-6">
                 <div class="card flex flex-column align-items-center">
                     <h5 class="text-left w-full">Pie Chart</h5>
                     <Chart type="pie" :data="pieData" :options="pieOptions"></Chart>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
